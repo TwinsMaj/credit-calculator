@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Person {
-	private String status;
+	private String segment;
 	private int creditModifier;
 }

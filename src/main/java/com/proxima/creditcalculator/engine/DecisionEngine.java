@@ -32,7 +32,6 @@ public class DecisionEngine {
 				int suitablePeriod = findSuitablePeriod();
 				if(suitablePeriod > 0) {
 					double loan = simpleScoringEngine.getLoanAmount();
-					// return "Postive decision, " + formatter.format(loan) + ", Try a loan period of " + suitablePeriod + " months";
 					String msg = "Positive Decision, Try a loan period of " + suitablePeriod + " months";
 					return new Decision(formatter.format(loan), suitablePeriod, msg);
 				}

@@ -19,12 +19,12 @@ public class DecisionEngineTest {
 	@Test
 	@DisplayName("should return positive decision when credit score is greater than one")
 	void whenCreditScoreGreaterThanOne() {
-		simpleScoringEngine.setLoanPeriod(24);
+		simpleScoringEngine.setLoanPeriod(30);
 		simpleScoringEngine.setCreditModifier(100);
-		simpleScoringEngine.setLoanAmount(1_000);
+		simpleScoringEngine.setLoanAmount(2_500);
 
 		int period = simpleScoringEngine.getLoanPeriod();
-		Decision expectedDecision = new Decision("€1,000.00", period, "Positive Decision");
+		Decision expectedDecision = new Decision("€2,500.00", period, "Positive Decision");
 		Decision actualDecision = decisionEngine.makeDecision();
 
 		assertEquals(expectedDecision.amount(), actualDecision.amount());
@@ -64,12 +64,12 @@ public class DecisionEngineTest {
 	@Test
 	@DisplayName("should return suitable period when credit score is low and no suitable amount")
 	void findSuitablePeriod() {
-		simpleScoringEngine.setLoanPeriod(2);
+		simpleScoringEngine.setLoanPeriod(4);
 		simpleScoringEngine.setCreditModifier(300);
-		simpleScoringEngine.setLoanAmount(1_000);
+		simpleScoringEngine.setLoanAmount(2_500);
 
 		String msg = "Positive Decision, Try a loan period of 60 months";
-		Decision expectedDecision = new Decision("€1,000.00", 60, msg);
+		Decision expectedDecision = new Decision("€2,500.00", 60, msg);
 		Decision actualDecision = decisionEngine.makeDecision();
 
 		assertEquals(expectedDecision.amount(), actualDecision.amount());
