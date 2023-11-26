@@ -23,10 +23,12 @@ public class DecisionEngineTest {
 		simpleScoringEngine.setCreditModifier(100);
 		simpleScoringEngine.setLoanAmount(1_000);
 
-		String expectedDecision = "Positive Decision, €1,000.00";
-		String actualDecision = decisionEngine.makeDecision();
+		int period = simpleScoringEngine.getLoanPeriod();
+		Decision expectedDecision = new Decision("€1,000.00", period, "Positive Decision");
+		Decision actualDecision = decisionEngine.makeDecision();
 
-		assertEquals(expectedDecision, actualDecision);
+		assertEquals(expectedDecision.amount(), actualDecision.amount());
+		assertEquals(expectedDecision.message(), actualDecision.message());
 	}
 
 	@Test
@@ -36,10 +38,12 @@ public class DecisionEngineTest {
 		simpleScoringEngine.setCreditModifier(300);
 		simpleScoringEngine.setLoanAmount(11_000);
 
-		String expectedDecision = "Positive Decision, €10,000.00";
-		String actualDecision = decisionEngine.makeDecision();
+		int period = simpleScoringEngine.getLoanPeriod();
+		Decision expectedDecision = new Decision("€10,000.00", period, "Positive Decision");
+		Decision actualDecision = decisionEngine.makeDecision();
 
-		assertEquals(expectedDecision, actualDecision);
+		assertEquals(expectedDecision.amount(), actualDecision.amount());
+		assertEquals(expectedDecision.message(), actualDecision.message());
 	}
 
 	@Test
@@ -49,10 +53,12 @@ public class DecisionEngineTest {
 		simpleScoringEngine.setCreditModifier(300);
 		simpleScoringEngine.setLoanAmount(11_000);
 
-		String expectedDecision = "Positive decision, €9,000.00";
-		String actualDecision = decisionEngine.makeDecision();
+		int period = simpleScoringEngine.getLoanPeriod();
+		Decision expectedDecision = new Decision("€9,000.00", period, "Positive Decision");
+		Decision actualDecision = decisionEngine.makeDecision();
 
-		assertEquals(expectedDecision, actualDecision);
+		assertEquals(expectedDecision.amount(), actualDecision.amount());
+		assertEquals(expectedDecision.message(), actualDecision.message());
 	}
 
 	@Test
@@ -62,9 +68,12 @@ public class DecisionEngineTest {
 		simpleScoringEngine.setCreditModifier(300);
 		simpleScoringEngine.setLoanAmount(1_000);
 
-		String expectedDecision = "Postive decision, €1,000.00, Try a loan period of 60 months";
-		String actualDecision = decisionEngine.makeDecision();
+		String msg = "Positive Decision, Try a loan period of 60 months";
+		Decision expectedDecision = new Decision("€1,000.00", 60, msg);
+		Decision actualDecision = decisionEngine.makeDecision();
 
-		assertEquals(expectedDecision, actualDecision);
+		assertEquals(expectedDecision.amount(), actualDecision.amount());
+		assertEquals(expectedDecision.period(), actualDecision.period());
+		assertEquals(expectedDecision.message(), actualDecision.message());
 	}
 }

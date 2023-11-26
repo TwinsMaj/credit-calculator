@@ -15,27 +15,30 @@ public class DecisionEngine {
 
 	private ScoringEngine simpleScoringEngine;
 
-	public String makeDecision() {
+	public Decision makeDecision() {
 		DecimalFormat formatter = new DecimalFormat("€0,000.00");
 		double creditScore = simpleScoringEngine.calculateCreditScore();
+		int period = simpleScoringEngine.getLoanPeriod();
 		
 		if (creditScore >= MIN_CREDIT_SCORE) {
 			double loanAmount = determineLoanAmount(simpleScoringEngine.getLoanAmount());
-			return  "Positive Decision, " + formatter.format(loanAmount);
+			return  new Decision(formatter.format(loanAmount), period, "Positive Decision");
 		} else {
 			double suitableLoanAmount = findSuitableAmount();
 			
 			if(suitableLoanAmount > 0) {
-				return "Positive decision, " + formatter.format(suitableLoanAmount);
+				return new Decision(formatter.format(suitableLoanAmount), period, "Positive Decision");
 			} else {
 				int suitablePeriod = findSuitablePeriod();
 				if(suitablePeriod > 0) {
 					double loan = simpleScoringEngine.getLoanAmount();
-					return "Postive decision, " + formatter.format(loan) + ", Try a loan period of " + suitablePeriod + " months";
+					// return "Postive decision, " + formatter.format(loan) + ", Try a loan period of " + suitablePeriod + " months";
+					String msg = "Positive Decision, Try a loan period of " + suitablePeriod + " months";
+					return new Decision(formatter.format(loan), suitablePeriod, msg);
 				}
 			}
 		}
-		return "Negative decision";
+		return new Decision("0.00", 0, "Negative Decision");
 	}
 
 	private double determineLoanAmount(double loanAmount) {
